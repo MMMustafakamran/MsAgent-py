@@ -6,6 +6,7 @@ export default function RootLayout({ children }: {children: React.ReactNode}) {
   return (
     <html lang="en">
       <body>
+        {/* [!code highlight:6] */}
         <CopilotKit 
           runtimeUrl="/api/copilotkit" 
           agent="my_agent"
