@@ -8,8 +8,10 @@ Streamline the documentation testing process by using designated base projects, 
 
 We will maintain two running projects for testing:
 
-1. **CLI Project** (`cli-agent-backup`): Used specifically for testing **Threads** pages (e.g., 14, 15, 16).
-2. **Existing Agent Project** (`01-build-with-agents`): Used for testing **all other** pages (e.g., 1-13).
+1. **Existing Agent Project** (`01-build-with-agents`): Used for testing **all non-threads pages** (tested first).
+2. **CLI Project** (`cli-agent-backup`): Used specifically for testing **all Threads pages** (e.g., Threads Drawer, Headless Threads, Lifecycle).
+
+**Execution Order Rule**: Test all non-threads pages using `01-build-with-agents` **first**. Test all Threads pages using `cli-agent-backup` **last**.
 
 ## Workflow (Per Documentation Page)
 
