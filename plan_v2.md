@@ -22,11 +22,11 @@ We will maintain two running projects for testing:
    - The agent will copy the `after-files` into the base project and run a build test (e.g., `npm run build` or `npx next build`).
    - If a build error occurs and it's a documentation bug, the agent will fix it in the `after-files` and document the fix in the report.
 3. **Generate Instructions & Report**:
-   - Create `instructions.md` detailing the exact steps the human needs to follow.
+   - Create `instructions.md` detailing the exact setup steps and **explicit browser verification steps** (e.g., URL to open, exact text to input, UI elements to click, and expected visual/agent responses to look for).
    - Create an **empty** `report.md` for the human to fill out (PASS/FAIL/Remarks).
 4. **Manual Testing**:
    - The human manually copies the files from `after-files/` into the active base project (if not already there).
-   - The human runs the dev server and tests the functionality, then marks the `report.md`.
+   - The human runs the dev server, opens `http://localhost:3000`, follows the step-by-step browser testing instructions in `instructions.md`, and marks the `report.md`.
 5. **Cleanup**:
    - Restore the modified files back to their pristine states using the `.copy` backups.
    - Delete any entirely new files that were created specifically for that test.
