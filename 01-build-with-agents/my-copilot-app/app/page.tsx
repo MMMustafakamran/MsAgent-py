@@ -1,17 +1,12 @@
 "use client";
 
-import { CopilotSidebar } from "@copilotkit/react-core/v2";
+import { CustomChat } from "./components/custom-chat";
 
 export default function Page() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <CopilotSidebar
-        labels={{
-          modalHeaderTitle: "Your Assistant",
-          welcomeMessageText: "Hi! How can I help you today?",
-        }}
-      />
-      <h1 className="text-4xl font-bold">Your App</h1>
+    <main className="flex min-h-screen flex-col items-center justify-center p-8 bg-gray-50">
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">Headless UI Test</h1>
+      <CustomChat />
     </main>
   );
 }
