@@ -4,12 +4,12 @@ import { randomUUID } from "@copilotkit/shared";
 import { useState, useCallback } from "react";
 
 export function CustomChat() {
-  //highlighted
+  // [!code highlight:2]
   const { agent } = useAgent();
   const { copilotkit } = useCopilotKit();
   const [input, setInput] = useState("");
 
-  //highlighted
+  // [!code highlight:14]
   const sendMessage = useCallback(async () => {
     if (!input.trim()) return;
 
@@ -24,12 +24,13 @@ export function CustomChat() {
     await copilotkit.runAgent({ agent });
   }, [input, agent, copilotkit]);
 
+  // [!code highlight:4]
   const stopAgent = useCallback(() => {
     copilotkit.stopAgent({ agent });
   }, [agent, copilotkit]);
 
   return (
-    //highlighted
+    // [!code highlight:41]
     <div className="flex flex-col h-full">
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {agent.messages.map((msg) => (

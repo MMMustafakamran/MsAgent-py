@@ -15,16 +15,15 @@
 
 ## Browser Verification Steps
 1. Open **`http://localhost:3000`** in your web browser.
-2. **Verify Title & Layout**:
-   - Check that the page displays the heading `"Slots UI Test"` centered on screen.
-   - Verify the chat box container has a shadow border card (`max-w-2xl h-[600px] border rounded-xl`).
-3. **Verify Custom Slots & Labels**:
+2. **Verify Children Render Function & Header**:
+   - Check that the chat box header displays `"My Agent (Slots Test)"` with a light gray background (`bg-gray-100 border-b`).
+3. **Verify Custom Labels & Props Override**:
    - Check input placeholder text: Should display `"Ask your agent anything..."`.
-   - Check input styling: Input area should feature a blue border with rounded corners (`border-2 border-blue-400 rounded-xl`).
-   - Check disclaimer / welcome text labels as configured in the slots `labels` prop.
+   - Check input focus: Verify the input area has `autoFocus` enabled on page load.
+   - Check input styling: Input area features blue borders with rounded corners (`border-2 border-blue-400 rounded-xl`).
 4. **Verify Custom Message View Slot**:
-   - Type `Tell me a joke` in the input field and submit.
-   - Verify user message is rendered plain text aligned to the right (`text-right`).
-   - Verify `"Thinking..."` pulsing animation (`animate-pulse`) appears while generation is in progress.
-   - Verify assistant response renders plain text aligned to the left (`text-left`).
+   - Type `Hello agent!` in the input field and press Enter.
+   - Verify user message is rendered in a right-aligned bubble (`text-right`).
+   - Verify `"Thinking..."` pulsing text appears while generation is in progress.
+   - Verify assistant response renders left-aligned (`text-left`).
 5. **Complete Report**: Mark your results in `report.md` (PASS/FAIL).

@@ -16,10 +16,11 @@ We will maintain two running projects for testing:
 1. **Target File Generation**:
    - Write the modified code directly into the appropriate `page-tests/XX-page-name/after-files/...` paths.
    - Use the appropriate base project's pristine code and inject the documentation snippets into it.
-   - Retain `// [!code highlight:X]` markers around the injected code.
+   - **Coverage & Simplicity**: Test most code examples and features described in the documentation page, keeping test implementations simple, clean, and un-overcomplicated (avoid excessive custom styling or complex wrappers).
+   - **Retain `// [!code highlight:X]` (or JSX `{/* [!code highlight:X] */}`) markers around all injected code** in both `after-files/` and the active working base project so that human reviewers can instantly identify the modified lines in their editor.
    - **Rule**: Do not fix documentation bugs initially. Implement them exactly as written.
 2. **Automated Checks**:
-   - The agent will copy the `after-files` into the base project and run a build test (e.g., `npm run build` or `npx next build`).
+   - The agent will copy the `after-files` into the base project (preserving all `// [!code highlight:X]` markers) and run a build test (e.g., `npm run build` or `npx next build`).
    - If a build error occurs and it's a documentation bug, the agent will fix it in the `after-files` and document the fix in the report.
 3. **Generate Instructions & Report**:
    - Create `instructions.md` detailing the exact setup steps and **explicit browser verification steps** (e.g., URL to open, exact text to input, UI elements to click, and expected visual/agent responses to look for).
