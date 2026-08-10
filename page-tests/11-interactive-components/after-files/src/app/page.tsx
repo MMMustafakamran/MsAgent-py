@@ -1,9 +1,15 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { CopilotChat, useHumanInTheLoop } from "@copilotkit/react-core/v2";
 import { z } from "zod";
 
 function InteractiveDemo() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // [!code highlight:22]
   useHumanInTheLoop({
     name: "humanApprovedCommand",
@@ -14,27 +20,22 @@ function InteractiveDemo() {
     render: ({ args, respond, status }) => {
       if (status !== "executing") return null;
       return (
-        <div className="border border-amber-300 bg-amber-50 p-4 rounded-lg my-2 text-amber-900 shadow-sm space-y-3">
-          <h3 className="font-semibold text-amber-950">Approval Required</h3>
-          <pre className="text-xs bg-amber-100 p-2 rounded text-amber-900 border border-amber-200">{args.command}</pre>
-          <div className="flex gap-2">
-            <button
-              onClick={() => respond?.("APPROVED")}
-              className="bg-green-600 text-white text-xs px-3 py-1.5 rounded hover:bg-green-700 font-medium"
-            >
-              Approve
-            </button>
-            <button
-              onClick={() => respond?.("REJECTED")}
-              className="bg-red-600 text-white text-xs px-3 py-1.5 rounded hover:bg-red-700 font-medium"
-            >
-              Deny
-            </button>
-          </div>
+        <div>
+          <pre>{args.command}</pre>
+          <button onClick={() => respond?.(`Tell the user the command ran`)}>
+            Approve
+          </button>
+          <button
+            onClick={() => respond?.(`Tell the user the command wasn't run`)}
+          >
+            Deny
+          </button>
         </div>
       );
     },
   });
+
+  if (!mounted) return null;
 
   return (
     <div className="w-full max-w-2xl h-[600px] border rounded-xl overflow-hidden shadow-lg bg-white">
