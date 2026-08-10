@@ -1,58 +1,55 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { CopilotChat, useRenderTool, useDefaultRenderTool } from "@copilotkit/react-core/v2";
-import { z } from "zod";
+import { useAgent, CopilotChat } from "@copilotkit/react-core/v2";
 
-function ToolRenderingDemo() {
+type AgentState = {
+  searches?: {
+    query: string;
+    done: boolean;
+  }[];
+};
+
+function StateRenderingDemo() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // [!code highlight:14]
-  useRenderTool({
-    name: "get_weather",
-    parameters: z.object({ location: z.string() }),
-    render: ({ status, parameters }) => {
-      return (
-        <div className="bg-blue-50 border border-blue-200 p-3 rounded-lg text-sm text-blue-900 my-2">
-          {status !== "complete" && "Calling weather API..."}
-          {status === "complete" &&
-            `Called the weather API for ${parameters.location}.`}
-        </div>
-      );
-    },
+  // [!code highlight:4]
+  const { agent } = useAgent({
+    agentId: "my_agent",
   });
+  const state = agent.state as AgentState | undefined;
 
-  // [!code highlight:15]
-  useDefaultRenderTool({
-    render: ({ name, status, result }) => {
-      return (
-        <div className="bg-gray-100 p-3 rounded-lg text-sm border my-2 text-gray-800">
-          <span>
-            {status === "complete" ? "✓ " : "⏳ "}
-            Tool Call: <strong>{name}</strong>
-          </span>
-          {status === "complete" && result && (
-            <pre className="text-xs bg-gray-200 p-2 rounded mt-1 overflow-x-auto">
-              {JSON.stringify(result, null, 2)}
-            </pre>
-          )}
-        </div>
-      );
-    },
-  });
+  // [!code highlight:11]
+  const renderedState = (
+    <div className="bg-gray-100 p-3 rounded-lg border text-sm my-2 text-gray-900">
+      <h3 className="font-semibold text-gray-900 mb-1">Agent Searches State:</h3>
+      {state?.searches && state.searches.length > 0 ? (
+        state.searches.map((search: { query: string; done: boolean }, index: number) => (
+          <div key={index} className="text-gray-900">
+            {search.done ? "✅ " : "⏳ "} {search.query}
+          </div>
+        ))
+      ) : (
+        <span className="text-gray-500 text-xs italic">No searches in state yet.</span>
+      )}
+    </div>
+  );
 
   if (!mounted) return null;
 
   return (
-    <div className="w-full max-w-2xl h-[600px] border rounded-xl overflow-hidden shadow-lg bg-white">
-      <CopilotChat
-        labels={{
-          welcomeMessageText: "Ask me about the weather or any tool call!",
-        }}
-      />
+    <div className="w-full max-w-2xl border rounded-xl overflow-hidden shadow-lg bg-white p-4">
+      {renderedState}
+      <div className="h-[450px] border-t">
+        <CopilotChat
+          labels={{
+            welcomeMessageText: "State Rendering Demo: Ask me to search for something!",
+          }}
+        />
+      </div>
     </div>
   );
 }
@@ -60,8 +57,8 @@ function ToolRenderingDemo() {
 export default function Page() {
   return (
     <main className="min-h-screen bg-gray-50 p-8 flex flex-col items-center justify-center">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">Tool Rendering Test</h1>
-      <ToolRenderingDemo />
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">State Rendering Test</h1>
+      <StateRenderingDemo />
     </main>
   );
 }

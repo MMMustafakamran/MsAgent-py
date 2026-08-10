@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useAgent, CopilotChat } from "@copilotkit/react-core/v2";
 
 type AgentState = {
@@ -10,17 +11,23 @@ type AgentState = {
 };
 
 function StateRenderingDemo() {
-  // [!code highlight:3]
-  const { agent } = useAgent<AgentState>({
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // [!code highlight:4]
+  const { agent } = useAgent({
     agentId: "my_agent",
   });
+  const state = agent.state as AgentState | undefined;
 
   // [!code highlight:11]
   const renderedState = (
     <div className="bg-gray-100 p-3 rounded-lg border text-sm my-2 text-gray-900">
       <h3 className="font-semibold text-gray-900 mb-1">Agent Searches State:</h3>
-      {agent.state?.searches && agent.state.searches.length > 0 ? (
-        agent.state.searches.map((search, index) => (
+      {state?.searches && state.searches.length > 0 ? (
+        state.searches.map((search: { query: string; done: boolean }, index: number) => (
           <div key={index} className="text-gray-900">
             {search.done ? "✅ " : "⏳ "} {search.query}
           </div>
@@ -30,6 +37,8 @@ function StateRenderingDemo() {
       )}
     </div>
   );
+
+  if (!mounted) return null;
 
   return (
     <div className="w-full max-w-2xl border rounded-xl overflow-hidden shadow-lg bg-white p-4">
