@@ -18,6 +18,7 @@ We will maintain two running projects for testing:
 1. **Target File Generation**:
    - Write the modified code directly into the appropriate `page-tests/XX-page-name/after-files/...` paths.
    - Use the appropriate base project's pristine code and inject the documentation snippets into it.
+   - **Backend & Frontend Coverage Rule**: Always check both Frontend and Backend sections of the documentation page. If a doc page specifies backend agent code (e.g., `main.py` middleware, tools, or state schemas), implement both frontend and backend code, create backups for both (`page copy.tsx`, `main copy.py`), and save after-files in `after-files/src/app/...` and `after-files/src/agent/...`.
    - **Coverage & Simplicity**: Test most code examples and features described in the documentation page, keeping test implementations simple, clean, and un-overcomplicated (avoid excessive custom styling or complex wrappers).
    - **Retain `// [!code highlight:X]` (or JSX `{/* [!code highlight:X] */}`) markers around all injected code** in both `after-files/` and the active working base project so that human reviewers can instantly identify the modified lines in their editor.
    - **Rule**: Do not fix documentation bugs initially. Implement them exactly as written.

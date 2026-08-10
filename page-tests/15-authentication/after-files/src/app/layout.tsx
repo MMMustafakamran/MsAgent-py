@@ -1,17 +1,15 @@
 import { CopilotKit } from "@copilotkit/react-core/v2";
 import "@copilotkit/react-core/v2/styles.css";
-import './globals.css';
 
-const userToken = "sample-test2-auth-token";
+const userToken = "sample-test-auth-token";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning>
-        {/* [!code highlight:7] */}
+    <html lang="en">
+      <body>
+        {/* [!code highlight:6] */}
         <CopilotKit
           runtimeUrl="/api/copilotkit"
-          agent="my_agent"
           headers={{
             Authorization: `Bearer ${userToken}`,
           }}
