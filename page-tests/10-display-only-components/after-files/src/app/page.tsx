@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { CopilotChat, useComponent } from "@copilotkit/react-core/v2";
 import { z } from "zod";
 
@@ -25,6 +26,11 @@ function WeatherCard({
 }
 
 function DisplayOnlyDemo() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // [!code highlight:7]
   useComponent({
     name: "showWeather",
@@ -42,6 +48,8 @@ function DisplayOnlyDemo() {
       </div>
     ) as any,
   });
+
+  if (!mounted) return null;
 
   return (
     <div className="w-full max-w-2xl h-[600px] border rounded-xl overflow-hidden shadow-lg bg-white">

@@ -1,51 +1,13 @@
 from __future__ import annotations
 import os
 import uvicorn
-from typing import Annotated
-from pydantic import BaseModel, Field
-from agent_framework import Agent, tool
+from agent_framework import Agent
 from agent_framework.openai import OpenAIChatClient
-from agent_framework.ag_ui import AgentFrameworkAgent, add_agent_framework_fastapi_endpoint
+from agent_framework.ag_ui import add_agent_framework_fastapi_endpoint
 from dotenv import load_dotenv
 from fastapi import FastAPI
 
 load_dotenv()
-
-class SearchItem(BaseModel):
-    query: str
-    done: bool
-
-# [!code highlight:15]
-STATE_SCHEMA: dict[str, object] = {
-    "searches": {
-        "type": "array",
-        "items": {
-            "type": "object",
-            "properties": {
-                "query": {"type": "string"},
-                "done": {"type": "boolean"},
-            },
-            "required": ["query", "done"],
-            "additionalProperties": False,
-        },
-        "description": "List of searches and whether each is done.",
-    }
-}
-
-# [!code highlight:8]
-PREDICT_STATE_CONFIG: dict[str, dict[str, str]] = {
-    "searches": {
-        "tool": "update_searches",
-        "tool_argument": "searches",
-    }
-}
-
-# [!code highlight:6]
-@tool
-def update_searches(
-    searches: Annotated[list[SearchItem], Field(description="The complete list of user's searches.")],
-) -> str:
-    return f"Searches updated. Tracking {len(searches)} item(s)."
 
 def _build_chat_client():
     if os.getenv("AZURE_OPENAI_ENDPOINT"):
@@ -65,26 +27,10 @@ def _build_chat_client():
 
 chat_client = _build_chat_client()
 
-base_agent = Agent(
-    name="search_agent",
-    instructions=(
-        "You help users create and run searches.\n\n"
-        "State sync rules:\n"
-        "- Maintain a list of searches: each item has { query, done }.\n"
-        "- When adding a new search, call `update_searches` with the FULL list, including the new item with done=true.\n"
-        "- All searches in the list should have done=true unless explicitly in progress.\n"
-    ),
+agent = Agent(
+    name="MyAgent",
+    instructions="You are a helpful assistant.",
     client=chat_client,
-    tools=[update_searches],
-)
-
-# [!code highlight:7]
-agent = AgentFrameworkAgent(
-    agent=base_agent,
-    name="my_agent",
-    description="Maintains a list of searches and streams state to the UI.",
-    state_schema=STATE_SCHEMA,
-    predict_state_config=PREDICT_STATE_CONFIG,
 )
 
 app = FastAPI(title="Microsoft Agent Framework - Quickstart")
