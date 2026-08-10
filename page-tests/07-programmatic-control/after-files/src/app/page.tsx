@@ -31,11 +31,11 @@ export default function Page() {
 
       <div className="w-full max-w-2xl bg-white border rounded-xl p-6 shadow-lg space-y-6">
         {/* [!code highlight:8] */}
-        <div className="bg-gray-100 p-4 rounded-lg space-y-2 text-sm">
-          <h2 className="font-semibold text-gray-700">Agent Telemetry</h2>
-          <p><strong>Agent Name:</strong> {agent.name || "Default"}</p>
-          <p><strong>Status:</strong> {agent.isRunning ? "Running..." : "Idle"}</p>
-          <p><strong>Total Messages:</strong> {agent.messages.length}</p>
+        <div className="bg-gray-100 p-4 rounded-lg space-y-2 text-sm text-gray-900">
+          <h2 className="font-semibold text-gray-900">Agent Telemetry</h2>
+          <p className="text-gray-900"><strong className="text-gray-900">Agent Name:</strong> {agent.name || "Default"}</p>
+          <p className="text-gray-900"><strong className="text-gray-900">Status:</strong> {agent.isRunning ? "Running..." : "Idle"}</p>
+          <p className="text-gray-900"><strong className="text-gray-900">Total Messages:</strong> {agent.messages.length}</p>
         </div>
 
         {/* Message list */}
