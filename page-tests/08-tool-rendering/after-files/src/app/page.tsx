@@ -1,9 +1,15 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { CopilotChat, useRenderTool, useDefaultRenderTool } from "@copilotkit/react-core/v2";
 import { z } from "zod";
 
 function ToolRenderingDemo() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // [!code highlight:14]
   useRenderTool({
     name: "get_weather",
@@ -37,6 +43,8 @@ function ToolRenderingDemo() {
       );
     },
   });
+
+  if (!mounted) return null;
 
   return (
     <div className="w-full max-w-2xl h-[600px] border rounded-xl overflow-hidden shadow-lg bg-white">

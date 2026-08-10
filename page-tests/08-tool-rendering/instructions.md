@@ -2,12 +2,13 @@
 
 ## Setup Steps
 1. Copy `page-tests/08-tool-rendering/after-files/src/app/page.tsx` into `01-build-with-agents/my-copilot-app/app/page.tsx`.
-2. Ensure the Python agent server is running:
+2. Copy `page-tests/08-tool-rendering/after-files/src/agent/main.py` into `01-build-with-agents/my-agent/main.py` (registers `@tool def get_weather`).
+3. Ensure the Python agent server is running/reloaded:
    ```bash
    cd 01-build-with-agents/my-agent
    uv run main.py
    ```
-3. Start the Next.js dev server:
+4. Start the Next.js dev server:
    ```bash
    cd 01-build-with-agents/my-copilot-app
    npm run dev
@@ -23,5 +24,5 @@
    - Verify a custom blue tool box (`bg-blue-50`) renders inside the chat message while calling the weather API tool.
    - Confirm it displays `Called the weather API for Tokyo.` upon completion.
 4. **Verify `useDefaultRenderTool` Wildcard Fallback**:
-   - If the agent calls any un-named tool, verify the generic gray tool fallback (`bg-gray-100`) displays `✓ Tool Call: ...`.
+   - Ask the agent to execute any un-named tool call and verify generic gray tool card (`bg-gray-100`) displays `✓ Tool Call: ...`.
 5. **Complete Report**: Mark your results in `report.md` (PASS/FAIL).
