@@ -35,8 +35,8 @@ We will maintain two running projects for testing:
    - The human manually copies the files from `after-files/` into the active base project (if not already there).
    - The human runs the dev server, opens `http://localhost:3000`, follows the step-by-step browser testing instructions in `instructions.md`, and marks the `report.md`.
 5. **Cleanup**:
-   - Restore the modified files back to their pristine states using the `.copy` backups.
-   - Delete any entirely new files that were created specifically for that test.
+   - Restore the modified files back to their pristine states by copying (overwriting) the exact content of the backup files (`page copy.tsx`, `main copy.py`) back into the changed files (`page.tsx`, `main.py`).
+     -dont delete the backup files , as would have to recreate the backup files again.
 
 ## File Backups
 
